@@ -9,5 +9,6 @@ private:
 public:
     void write ( uint8_t value);
     void display();
+    void displayMenu();
     void clear();
 };

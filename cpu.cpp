@@ -1,17 +1,23 @@
 #includ "cpu.h"
-#include "cpu.h"
-
 #include<iostream>
-#include <iomanip>
-#include "registers.h"
 
-cpu::cpu(Memory& m, Screen& s){
+Cpu::Cpu(Memory& m, Screen& s){
     memory = m;
     screen = s;
     pc = 0;
     halted = 0;
     }
-bool cpu::fetch_decode(){
+void Cpu::reset(){
+    pc = 0;
+    halted = 0;
+    ir.setrow(0);///?
+    regesters.clear();///?
+}
+void set_pc(int address){
+    pc = address;
+}
+    
+bool Cpu::fetch_decode(){
     if(pc>=255)return false;
     uint8_t byte1 = memory.read(pc);
     uint8_t byte2 = memory.read(pc+1);
@@ -19,16 +25,16 @@ bool cpu::fetch_decode(){
     ir.set_row(row);
     return true; 
 }
-void cpu::execute(){
+void execute(){
   int op = ir.getOp();
   int R = ir.getR();
   int xy = ir.getXY();
   switch(op){
     case 1: 
-        registers.write(r, memory.read(xy));
+        registers.write(R, memory.read(xy));
         break;
     case 2: 
-        registers.write(r, xy);
+        registers.write(R, xy);
         break;
     case 3:
         memory.write(xy, registers.read(r));
@@ -40,27 +46,23 @@ void cpu::execute(){
         registers.write(ir.getY(), registers.read(ir.getX()));///????
         break;
     case 5: 
-        registers.write(r, ALU::add(registers.read(ir.getX()), registers.read(ir.getY())));
+        registers.write(R, ALU::add(registers.read(ir.getX()), registers.read(ir.getY())));
         break;
-    case 0xB: // Jump to XY if R == R0
-        if(registers.read(r) == registers.read(0)) {
+    case 0xB: 
+        if(registers.read(R) == registers.read(0)) {
           pc = xy;
         }
         break;
-    case 0xC: // Halt execution loop
+    case 0xC: 
         halted = 1;
         break;
   }
 }
-void cpu::reset(){
-    pc = 0;
-    halted = 0;
-    ir.setrow(0);///?
-    regesters.clear();///?
-}
+
+
     
     
-void cpu::total_run(){///Machine?
+void total_run(){///Machine?
   bool error = 0;
   while(!halted && ir.isvalid){
     if(!fetch()){
@@ -78,37 +80,5 @@ void cpu::total_run(){///Machine?
   }
   if(error) //menue
 }
-registers::registers()
-{
-    n=0;
-    value=0;
-    clear();
-}
-uint8_t registers::read (int noc )
-{
-    if (noc<1||noc>16)return 0;
-    n=noc;
-    return cells[noc-1];
-}
-void registers::display()
-{
-    cout<<hex<<uppercase<<setfill('0');
-    for (int i=0;i<16;i++)
-    {
-        cout<<setw(2)<<static_cast<int>(cells[i])<<" ";
-    }
-}
-void registers::write(int noc,uint8_t v)
-{
-    if (noc<1) noc=1;
-    if (noc>16) return;
-    cells[noc-1] =v;
-    n=noc;
-}
-void registers::clear()
-{
-    for (int i=0;i<16;i++)
-    {
-        cells[i]=0;
-    }
-}
+
+void steps_run()

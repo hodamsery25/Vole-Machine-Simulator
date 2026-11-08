@@ -4,6 +4,7 @@
 #include<iostream>
 #include <iomanip>
 #include "registers.h"
+#include "memory.h"
 
 cpu::cpu(Memory& m, Screen& s){
     memory = m;
@@ -108,6 +109,33 @@ void registers::write(int noc,uint8_t v)
 void registers::clear()
 {
     for (int i=0;i<16;i++)
+    {
+        cells[i]=0;
+    }
+}
+memory::memory()
+{
+    index=0;
+    value=0;
+    clear();
+}
+uint8_t memory::read (int i)
+{
+    if (index<0||index>255)return 0;
+    index=i;
+    return cells[index];
+    //cout<<(int)obj1.read(index) for printing;
+}
+void memory:: write(int i,uint8_t v)
+{
+    if (index<0||index>255) return 0;
+    index=i;
+    value=v;
+    cells[index]=value;
+}
+void memory::clear()
+{
+    for (int i=0;i<255;i++)
     {
         cells[i]=0;
     }

@@ -2,6 +2,8 @@
 #define _CPU_H
 #ifndef _REGISTER_H
 #define _REGISTER_H
+#ifndef _memory_H
+#define _memory_H
 #include <cstdint>
 
 class cpu{
@@ -32,6 +34,19 @@ public:
     void write(int noc,uint8_t v);
     void clear ();
 
+
+};
+#endif
+class memory
+{
+private:
+    uint8_t cells[255];
+    int index;
+    uint8_t value;
+public:
+    uint8_t read (int i);
+    void write(int i,uint8_t v);
+    void clear();
 
 };
 #endif

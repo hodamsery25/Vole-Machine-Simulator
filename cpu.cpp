@@ -1,34 +1,38 @@
 #includ "cpu.h"
 #include<iostream>
 
-Cpu::Cpu(Memory& m, Screen& s){
+Cpu::Cpu(Memory& m,Regesters& regs,Instruction& ir){
     memory = m;
-    screen = s;
+    regesters = regs;
+    IR = ir;
     pc = 0;
     halted = 0;
     }
 void Cpu::reset(){
     pc = 0;
     halted = 0;
-    ir.setrow(0);///?
+    IR.setrow(0);///?
     regesters.clear();///?
 }
 void set_pc(int address){
     pc = address;
 }
+int get_pc(){
+    return pc;
+}
     
 bool Cpu::fetch_decode(){
-    if(pc>=255)return false;
+    if(pc>=255)return false;//
     uint8_t byte1 = memory.read(pc);
     uint8_t byte2 = memory.read(pc+1);
     uint16_t row = (byte1<<8) + byte2;
-    ir.set_row(row);
-    return true; 
+    IR.set_row(row);
+    return true;// 
 }
 void execute(){
-  int op = ir.getOp();
-  int R = ir.getR();
-  int xy = ir.getXY();
+  int op = IR.getOp();
+  int R = IR.getR();
+  int xy = IR.getXY();
   switch(op){
     case 1: 
         registers.write(R, memory.read(xy));
@@ -43,10 +47,10 @@ void execute(){
         }
         break;
     case 4: 
-        registers.write(ir.getY(), registers.read(ir.getX()));///????
+        registers.write(IR.getY(), registers.read(IR.getX()));///????
         break;
     case 5: 
-        registers.write(R, ALU::add(registers.read(ir.getX()), registers.read(ir.getY())));
+        registers.write(R, ALU::add(registers.read(IR.getX()), registers.read(IR.getY())));///need fix
         break;
     case 0xB: 
         if(registers.read(R) == registers.read(0)) {

@@ -25,19 +25,19 @@ cout << "Hello world!" << endl;
       case 2:
           int address;
           uint8_t value;
-          cout >> "\n  Enter Memory cell number [0~‣255] : ";
-          cin << address;
-          cout >> "\n  Enter Value : ";
-          cin << value;
-          memory.write( address, value); 
+          cout << "  Enter Memory cell number in Hex[0~‣FF] : ";
+          cin >> hex >> address;
+          cout << "\n  Enter Value in Hex[0~‣FF] : ";
+          cin >> hex >> value;
+          memory.write( address, value);
           break;
       case 3:
           int index;
           uint8_t value;
-          cout >> "  Enter Register number [0~‣15] : ";
-          cin << index;
-          cout >> "\n  Enter Value : ";
-          cin << value;
+          cout << "  Enter Register number in Hex[0~‣F] : ";
+          cin >> hex >> index;
+          cout << "\n  Enter Value in Hex[0~‣FF] : ";
+          cin >> hex >> value;
           registers.write(index, value); 
       case 4: 
           total_run(/*under constructio*/);

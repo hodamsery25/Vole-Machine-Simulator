@@ -6,12 +6,12 @@ class Cpu{
 private:
     Memory& memory;//
     Screen& screen;//
-    Regesters regesters;//
-    Instruction ir;//
+    Regesters& regesters;//
+    Instruction& IR;//
     int pc;
     bool halted;
 public:
-    Cpu(Memory& m, Screen& s);
+    Cpu(Memory& m,Regesters& regs,Instruction& ir);
     void total_run();///Machine?
     void reset();
     void set_pc(int address);

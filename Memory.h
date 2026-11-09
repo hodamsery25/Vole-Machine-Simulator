@@ -2,8 +2,7 @@
 // Created by iprahim on 09/11/2026.
 //
 
-#ifndef VOLE_MACHINE_SIMULATOR_MEMORY_H
-#define VOLE_MACHINE_SIMULATOR_MEMORY_H
+#pragma once
 #include <cstdint>
 
 class Memory
@@ -17,4 +16,4 @@ public:
     void write(int i,uint8_t v);
     void clear();
 };
-#endif //VOLE_MACHINE_SIMULATOR_MEMORY_H
+

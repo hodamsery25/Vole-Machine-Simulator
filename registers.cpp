@@ -12,7 +12,7 @@ registers::registers()
 uint8_t registers::read (int noc )
 {
     n=noc;
-    return cells[noc-1];
+    return cells[noc];
 }
 void registers::display()
 {
@@ -24,9 +24,7 @@ void registers::display()
 }
 void registers::write(int noc,uint8_t v)
 {
-    if (noc<1) noc=1;
-    if (noc>16) return;
-    cells[noc-1] =v;
+    cells[noc] =v;
     n=noc;
 }
 void registers::clear()

@@ -18,7 +18,13 @@ using namespace std;
 
 
         while(getline(file,storage)){
-            
+              while(!line.empty()&&(Line[0]==' '||Line[0]=='\t'))
+        {
+            Line.erase(0,1);
+        }
+            if(storage.empty()||storage[0]==';'){
+             continue;
+            }
             uint16_t instruction  ;
 
             if(parseLine( storage,instruction)==false){
@@ -53,7 +59,7 @@ string Loader::getLastError(){
 
         }
         
-        while(!line.empty()&&Line[0]==' ')
+        while(!line.empty()&&(Line[0]==' '||Line[0]=='\t'))
         {
             Line.erase(0,1);
 

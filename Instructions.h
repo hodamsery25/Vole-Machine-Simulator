@@ -9,8 +9,8 @@ public:
 	bool isValid();
 	int getOpcode();
 	int getR();
-	int getS();
-	int getT();
+	int getX();
+	int getY();
 	int getXY();	
 	uint16_t getRaw();
 };

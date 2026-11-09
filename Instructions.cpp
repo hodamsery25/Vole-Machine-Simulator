@@ -21,11 +21,11 @@ int Instructions::getR() {
 	return (raw / 256) % 16;
 }
 
-int Instructions::getS() {	
+int Instructions::getX() {	
 	return (raw / 16) % 16;
 }
 
-int Instructions::getT() {
+int Instructions::getY() {
 	return raw % 16;
 }
 

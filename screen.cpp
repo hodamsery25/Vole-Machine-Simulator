@@ -24,7 +24,8 @@ using namespace std;
        cout<<"4. Run prgram\n";
        cout<<"5. Run Step by Step\n";
        cout<<"6. Display Machine Status\n";
-       cout<<"7. Exit\n";
+        cout<<"7. Clear Screen\n";
+       cout<<"8. Exit\n";
 
 
     }

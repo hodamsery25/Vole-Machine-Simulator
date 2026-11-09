@@ -44,12 +44,15 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
 }
 
 bool Loader::loadFile(string filename, vector<uint16_t>& program) {
+    lastError.clear();
 
     ifstream file(filename);
     if (!file.is_open()) {
         lastError = "the file not found";
+        
         return false;
     }
+program.clear();
 
     string line;
     while (getline(file, line)) {
@@ -65,6 +68,10 @@ bool Loader::loadFile(string filename, vector<uint16_t>& program) {
         uint16_t instruction;
         if (!parseLine(line, instruction)) {
             lastError = "the line is Error";
+            return false;
+        }
+        if (program.size() >= 128) {
+            lastError = "the program is too large";
             return false;
         }
 

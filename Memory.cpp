@@ -4,27 +4,27 @@
 
 #include "Memory.h"
 #include <iostream>
-memory::memory()
+Memory::Memory()
 {
     index=0;
     value=0;
     clear();
 }
-uint8_t memory::read (int i)
+uint8_t Memory::read (int i)
 {
     index=i;
     return cells[index];
     //cout<<(int)obj1.read(index) for printing;
 }
-void memory:: write(int i,uint8_t v)
+void Memory:: write(int i,uint8_t v)
 {
     index=i;
     value=v;
     cells[index]=value;
 }
-void memory::clear()
+void Memory::clear()
 {
-    for (int i=0;i<255;i++)
+    for (int i=0;i<256;i++)
     {
         cells[i]=0;
     }

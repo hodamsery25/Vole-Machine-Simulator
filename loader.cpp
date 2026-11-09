@@ -1,95 +1,79 @@
-#include<string>
-#include<cstdint>
-#include<vector>
-#include<iostream>
-#include<fstream>
-#include"loader.h"
+#include <string>
+#include <cstdint>
+#include <vector>
+#include <fstream>
+#include "loader.h"
 using namespace std;
- bool Loader::loadFile(string filename ,vector<uint16_t>&program){
-    ifstream file;
-    file.open(filename);
-        if(file.is_open()==false){
-            lastError="the file not found";
+
+bool Loader::parseLine(string line, uint16_t& instruction) {
+
+    size_t pos = line.find(';');
+    if (pos != string::npos) {
+        line = line.substr(0, pos);
+    }
+
+    while (!line.empty() && (line[0] == ' ' || line[0] == '\t')) {
+        line.erase(0, 1);
+    }
+
+    while (!line.empty() && (line[line.length() - 1] == ' ' ||
+                             line[line.length() - 1] == '\t' ||
+                             line[line.length() - 1] == '\r')) {
+        line.erase(line.length() - 1, 1);
+    }
+
+    if (line.length() != 4) {
+        return false;
+    }
+
+    int i = 0;
+    while (i < 4) {
+        char c = line[i];
+        bool digit = (c >= '0' && c <= '9');
+        bool upper = (c >= 'A' && c <= 'F');
+        bool lower = (c >= 'a' && c <= 'f');
+
+        if (!digit && !upper && !lower) {
+            return false;
+        }
+        i++;
+    }
+
+    instruction = stoul(line, nullptr, 16);
+    return true;
+}
+
+bool Loader::loadFile(string filename, vector<uint16_t>& program) {
+
+    ifstream file(filename);
+    if (!file.is_open()) {
+        lastError = "the file not found";
+        return false;
+    }
+
+    string line;
+    while (getline(file, line)) {
+
+        while (!line.empty() && (line[0] == ' ' || line[0] == '\t')) {
+            line.erase(0, 1);
+        }
+
+        if (line.empty() || line[0] == ';' || line[0] == '\r') {
+            continue;
+        }
+
+        uint16_t instruction;
+        if (!parseLine(line, instruction)) {
+            lastError = "the line is Error";
             return false;
         }
 
-    
-        string storage;
-
-
-        while(getline(file,storage)){
-              while(!line.empty()&&(Line[0]==' '||Line[0]=='\t'))
-        {
-            Line.erase(0,1);
-        }
-            if(storage.empty()||storage[0]==';'){
-             continue;
-            }
-            uint16_t instruction  ;
-
-            if(parseLine( storage,instruction)==false){
-
-                lastError="the line is Error";
-                return false;
-            }
-            program.push_back(instruction);
-
-
-        }
-            return true;
-
-
-        
+        program.push_back(instruction);
     }
-    
- 
 
+    return true;
+}
 
-string Loader::getLastError(){
+string Loader::getLastError() {
     return lastError;
 }
- bool Loader::parseLine(string line , uint16_t& instruction){
-    string Line=line;
-        
-        size_t position=Line. find(';');
-
-        if(position!=string::npos){
-            
-            Line=Line.substr(0,position);
-
-        }
-        
-        while(!line.empty()&&(Line[0]==' '||Line[0]=='\t'))
-        {
-            Line.erase(0,1);
-
-        }
-        
-        while (!Line.empty() && Line[Line.length() - 1] == ' ')
-        Line.erase(Line.length() - 1, 1);
-        
-
-        
-        if(Line.length()!=4){
-            return false;
-
-        }
-        
-
-        for(int i =0;i<4;i++){
-            if((Line[i]<'0'||Line[i]>'9')&&(Line[i]<'A'||Line[i]>'F')&&(Line[i]<'a'||Line[i]>'f')){
-                return false;
-
-
-        }
-            
-        
-        instruction=stoul(Line,nullptr,16);
-        return true;
-
-        
-
-
-    }
-
-

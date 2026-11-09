@@ -6,21 +6,19 @@
 #include <cstdlib>
 
 using namespace std;
-
-int main()
-{
-cout << "Hello world!" << endl;
+int main(){
   int choice = 0;
   Memory memory;
   Screen screen;
   Cpu cpu;
   cout << "  \t\t-< Vole Machine simulator >- \n\n";
-  While(){
+  While(/*under constructio*/){
     screen.displayMenu();
-    cout << "\n  Enter your choice : ";
+    cout << "\n>>Enter your choice : ";
     cin >> choice;
     switch (choice) {
       case 1:
+          cpu.reset();
           loadFile(/*under constructio*/); break;
       case 2:
           int address;
@@ -38,26 +36,29 @@ cout << "Hello world!" << endl;
           cin >> hex >> index;
           cout << "\n  Enter Value in Hex[0~‣FF] : ";
           cin >> hex >> value;
-          registers.write(index, value); 
-      case 4: 
-          total_run(/*under constructio*/);
+          registers.write(index, value);
+      case 4:
+          cpu.total_run(/*under constructio*/);
+          cout << "\n<< Program executed to the End >>\n";
           break;
-      case 5: 
-          steps_run(/*under constructio*/);
+      case 5:
+          cpu.steps_run(/*under constructio*/);
+          cout << "\n<< Program execution reached a halt sequence >>\n";
           break;
-      case 6: 
-          screen.displayStatus(); 
+      case 6:
+          screen.displayStatus();
           break;
       case 7:
+           system("cls"); 
+           cout << "  \t\t-< Vole Machine simulator >- \n\n";
+           break;
+      case 8:
            cout << "\n**Program is Done\n";
            return EXIT_SUCCESS;
            break;
-      default: 
-          cout << "Invalid choice selection.\n";
+      default:
+          cout << "**Invalid choice selection\n";
     }
   }
-
-    //cin>> q;
-    /*if (q=='q') system("cls"); *////#####
   return 0;
 }

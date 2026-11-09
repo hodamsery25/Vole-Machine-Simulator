@@ -1,6 +1,7 @@
 
 #include <iomanip>
 #include "registers.h"
+#include <iostream>
 
 registers::registers()
 {
@@ -10,7 +11,6 @@ registers::registers()
 }
 uint8_t registers::read (int noc )
 {
-    if (noc<1||noc>16)return 0;
     n=noc;
     return cells[noc-1];
 }

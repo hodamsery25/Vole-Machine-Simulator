@@ -30,7 +30,27 @@ using namespace std;
 
     }
 
-    void Screen::displayStatus(){
+    void Screen::displayStatus(registers& r, Memory& m) {
+    cout << hex << uppercase << setfill('0');
+
+    cout << "\n===== Registers =====\n";
+    for (int i = 0; i < 16; i++) {
+        cout << "R" <<dec<< i << " = " <<hex<< setw(2) << (int)r.read(i) << "   ";
+        if ((i + 1) % 4 == 0) {
+            cout << "\n";
+        }
+    }
+
+    cout << "\n===== Memory =====\n";
+    for (int i = 0; i < 256; i++) {
+        cout << setw(2) << (int)m.read(i) << " ";
+        if ((i + 1) % 16 == 0) {
+            cout << "\n";
+        }
+    }
+
+    cout << dec << setfill(' ');
+}
 
 
     }

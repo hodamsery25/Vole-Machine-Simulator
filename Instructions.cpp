@@ -8,9 +8,9 @@ bool Instructions :: isValid() {
 	int digit_1 = raw / 4096;
 	//recheck wich instructions do we offer in this system and which do we not (important)
 	if ((digit_1 >= 1 && digit_1 <= 8) || digit_1 == 11 || digit_1 == 12)
-		return True;
+		return true;
 	else
-		return False;
+		return false;
 }
 
 int Instructions :: getOpcode() {

@@ -9,7 +9,7 @@
 class Memory
 {
 private:
-    uint8_t cells[255];
+    uint8_t cells[256];
     int index;
     uint8_t value;
 public:

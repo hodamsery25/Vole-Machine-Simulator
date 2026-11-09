@@ -1,13 +1,15 @@
 #pragma once
 #include<string>
 #include<cstdint>
+#include"Memory.h"
+#include"register.h"
 class Screen
 {
 private:
   std::string output;
   Memory& memory;
-  Registers&registers;
-  Cpu&cpu;
+  registers&registers;
+  
    
 public:
     void write ( uint8_t value);
@@ -15,5 +17,5 @@ public:
     void displayMenu();
     void displayStatus();
     void clear();
-    Screen(Memory&m,Registers&r);
+    Screen(Memory&m,registers&r);
 };

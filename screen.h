@@ -2,20 +2,21 @@
 #include<string>
 #include<cstdint>
 #include"Memory.h"
-#include"register.h"
+#include "registers.h"
+using namespace std;
 class Screen
 {
 private:
-  std::string output;
-  Memory& memory;
-  registers&registers;
-  
-   
+    string output;
+    Memory& memory;
+    Registers& registers;
+
+
 public:
-    void write ( uint8_t value);
+    void write(uint8_t value);
     void display();
     void displayMenu();
-    void displayStatus();
+    void displayStatus(Registers& r, Memory& m);
     void clear();
-    Screen(Memory&m,registers&r);
+    Screen(Memory& m, Registers& r);
 };

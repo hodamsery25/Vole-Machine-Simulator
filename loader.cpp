@@ -13,15 +13,15 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
     if (pos != string::npos) {
         line = line.substr(0, pos);
     }
-
+    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t')) {
+        line.pop_back();
+    }
     while (!line.empty() && (line[0] == ' ' || line[0] == '\t')) {
         line.erase(0, 1);
     }
-
-    while (!line.empty() && (line[line.length() - 1] == ' ' ||
-        line[line.length() - 1] == '\t' ||
-        line[line.length() - 1] == '\r')) {
-        line.erase(line.length() - 1, 1);
+    if (line.empty()) {
+        instruction = 0xFFFF;
+        return true;
     }
 
     if (line.length() != 4) {
@@ -65,6 +65,9 @@ bool Loader::loadFile() {
         while (!line.empty() && (line[0] == ' ' || line[0] == '\t')) {
             line.erase(0, 1);
         }
+        while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t')) {
+            line.pop_back();
+        }
 
         if (line.empty() || line[0] == ';' || line[0] == '\r') {
             continue;
@@ -75,12 +78,17 @@ bool Loader::loadFile() {
             cout << "\n**Error: Line invalid >> File Rejected\n\n";
             memory.clear();
             registers.clear();
+            file.close();
             return false;
+        }
+         if (instruction == 0xFFFF) {
+            continue;
         }
         if (address+1>255) {
             cout<<"\n**Error: program is too large >> File Rejected\n\n";
             memory.clear();
             registers.clear();
+            file.close();
             return false;
         }
 
@@ -88,6 +96,7 @@ bool Loader::loadFile() {
         memory.write(address + 1, instruction & 0xFF);
         address+=2;
     }
+    file.close();
     return true;
 }
 

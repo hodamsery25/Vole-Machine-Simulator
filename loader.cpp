@@ -17,8 +17,8 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
     }
 
     while (!line.empty() && (line[line.length() - 1] == ' ' ||
-                             line[line.length() - 1] == '\t' ||
-                             line[line.length() - 1] == '\r')) {
+        line[line.length() - 1] == '\t' ||
+        line[line.length() - 1] == '\r')) {
         line.erase(line.length() - 1, 1);
     }
 
@@ -39,7 +39,7 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
         i++;
     }
 
-    instruction = stoul(line, nullptr, 16);
+    instruction = static_cast<uint16_t>(stoul(line, nullptr, 16));
     return true;
 }
 
@@ -49,10 +49,10 @@ bool Loader::loadFile(string filename, vector<uint16_t>& program) {
     ifstream file(filename);
     if (!file.is_open()) {
         lastError = "the file not found";
-        
+
         return false;
     }
-program.clear();
+    program.clear();
 
     string line;
     while (getline(file, line)) {

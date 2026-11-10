@@ -18,7 +18,7 @@ void Cpu::set_pc(int address) {
     pc = address;
 }
 void Cpu::displayStatus(){
-    cout <<"\n Current Program counter: "<< pc<<endl;
+    cout <<"\n== Current Program counter: "<< pc<<endl;
 }
 
 void Cpu::fetch_decode() {

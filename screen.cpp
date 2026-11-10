@@ -40,15 +40,16 @@ void Screen::displayMenu() {
 void Screen::displayStatus() {
     cout << hex << uppercase << setfill('0');
 
-    cout << "\n  === Registers ===\n";
+    cout << "\n\t        == Registers ==\n";
+    cout << "\t     ";
     for (int i = 0; i < 16; i++) {
         cout << "R-" << dec << setw(2) << i << " = " << hex << setw(2) << (int)registers.read(i) << "   ";
         if ((i + 1) % 2 == 0) {
-            cout << "\n";
+            cout << "\n\t     ";
         }
     }
 
-    cout << "\n        ======  Memory  ======\n";
+    cout << "\n             ======  Memory  ======\n";
     for (int i = 0; i < 256; i++) {
         cout << setw(2) << (int)memory.read(i) << " ";
         if ((i + 1) % 16 == 0) {

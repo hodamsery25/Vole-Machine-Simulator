@@ -22,7 +22,7 @@ void Screen::displayMenu() {
     cout << "1. Load Program\n";
     cout << "2. Edit Memory\n";
     cout << "3. Edit Register\n";
-    cout << "4. Run prgram\n";
+    cout << "4. Run program\n";
     cout << "5. Run Step by Step\n";
     cout << "6. Display Machine Status\n";
     cout << "7. Clear Screen\n";

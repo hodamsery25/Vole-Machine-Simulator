@@ -14,9 +14,6 @@ void Cpu::reset() {
 void Cpu::set_pc(int address) {
     pc = address;
 }
-int Cpu::get_pc() {
-    return pc;
-}
 
 void Cpu::fetch_decode() {
     uint8_t byte1 = memory.read(pc);
@@ -92,9 +89,12 @@ void Cpu::steps_run() {
         fetch_decode();
         pc += 2;
         execute();
-        screen.displayStatus(registers, memory);
+        screen.displayStatus();
         cin.ignore();
         cout << "\n > Press Enter to continue > ";
         getline(cin, o);
     }
+}
+void Cpu::displayStatus(){
+    cout <<"\n Current Program counter: "<< pc;
 }

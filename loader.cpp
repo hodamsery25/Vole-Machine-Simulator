@@ -2,8 +2,10 @@
 #include <cstdint>
 #include <vector>
 #include <fstream>
+#include <iostream>
 #include "loader.h"
 using namespace std;
+Loader::Loader(Memory& m, Registers& r):memory(m),registers(r){filename = "";}
 
 bool Loader::parseLine(string line, uint16_t& instruction) {
 
@@ -43,13 +45,15 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
     return true;
 }
 
-bool Loader::loadFile(string filename, vector<uint16_t>& program) {
-    lastError.clear();
+bool Loader::loadFile() {
 
+    cout<<"\n= Enter File Name [with extension]: ";
+    cin >> filename;
     ifstream file(filename);
     if (!file.is_open()) {
-        lastError = "the file not found";
-
+        cout << "\n**Error: File not found >> File Rejected\n";
+        memory.clear();
+        registers.clear();
         return false;
     }
     program.clear();
@@ -67,20 +71,20 @@ bool Loader::loadFile(string filename, vector<uint16_t>& program) {
 
         uint16_t instruction;
         if (!parseLine(line, instruction)) {
-            lastError = "the line is Error";
+            cout << "\n**Error: Line invalid >> File Rejected\n";
+            memory.clear();
+            registers.clear();
             return false;
         }
         if (program.size() >= 128) {
-            lastError = "the program is too large";
+            cout<<"\n**Error: program is too large >> File Rejected\n";
+            memory.clear();
+            registers.clear();
             return false;
         }
 
         program.push_back(instruction);
     }
-
     return true;
 }
 
-string Loader::getLastError() {
-    return lastError;
-}

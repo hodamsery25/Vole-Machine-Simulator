@@ -2,15 +2,20 @@
 #include<string>
 #include<cstdint>
 #include<vector>
+#include "Memory.h"
+#include "registers.h"
 using namespace std;
 
 class Loader
 {
 private:
-	string lastError;
+    Registers registers;
+    Memory memory;
+	string filename;
 	bool parseLine(string line, uint16_t& instruction);
 public:
-	bool loadFile(string filename, vector<uint16_t>& program);
-	string getLastError();
+    Loader(Memory& m, Registers& r);
+	bool loadFile();
+
 
 };

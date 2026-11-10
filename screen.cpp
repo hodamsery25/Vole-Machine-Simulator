@@ -20,7 +20,7 @@ void Screen::display() {
 
 void Screen::displayMenu() {
     cout << "1. Load Program\n";
-    cout << "2. Edit Memory\n";
+    cout << "2. Edit Memory cell\n";
     cout << "3. Edit Register\n";
     cout << "4. Run program\n";
     cout << "5. Run Step by Step\n";
@@ -29,20 +29,20 @@ void Screen::displayMenu() {
     cout << "8. Exit\n";
 }
 
-void Screen::displayStatus(Registers& r, Memory& m) {
+void Screen::displayStatus() {
     cout << hex << uppercase << setfill('0');
 
-    cout << "\n===== Registers =====\n";
+    cout << "\n  === Registers ===\n";
     for (int i = 0; i < 16; i++) {
-        cout << "R" << dec << i << " = " << hex << setw(2) << (int)r.read(i) << "   ";
-        if ((i + 1) % 4 == 0) {
+        cout << "R-" << dec << setw(2) << i << " = " << hex << setw(2) << (int)registers.read(i) << "   ";
+        if ((i + 1) % 2 == 0) {
             cout << "\n";
         }
     }
 
-    cout << "\n===== Memory =====\n";
+    cout << "\n        ======  Memory  ======\n";
     for (int i = 0; i < 256; i++) {
-        cout << setw(2) << (int)m.read(i) << " ";
+        cout << setw(2) << (int)memory.read(i) << " ";
         if ((i + 1) % 16 == 0) {
             cout << "\n";
         }

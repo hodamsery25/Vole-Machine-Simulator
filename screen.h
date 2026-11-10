@@ -16,7 +16,7 @@ public:
     void write(uint8_t value);
     void display();
     void displayMenu();
-    void displayStatus(Registers& r, Memory& m);
+    void displayStatus();
     void clear();
     Screen(Memory& m, Registers& r);
 };

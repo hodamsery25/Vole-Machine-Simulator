@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 using namespace std;
-class Instructions{
+class Instructions {
 private:
 	uint16_t raw;
 public:
@@ -11,6 +11,6 @@ public:
 	int getR();
 	int getX();
 	int getY();
-	int getXY();	
+	int getXY();
 	uint16_t getRaw();
 };

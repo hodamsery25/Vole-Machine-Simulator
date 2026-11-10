@@ -47,16 +47,16 @@ bool Loader::parseLine(string line, uint16_t& instruction) {
 
 bool Loader::loadFile() {
 
-    cout<<"\n= Enter File Name [with extension]: ";
-    cin >> filename;
+    cout<<"= Enter File Name : ";
+    cin.ignore(10000, '\n');///
+    getline(cin,filename);///
     ifstream file(filename);
     if (!file.is_open()) {
-        cout << "\n**Error: File not found >> File Rejected\n";
+        cout << "\n**Error: File not found >> File Rejected\n\n";
         memory.clear();
         registers.clear();
         return false;
     }
-    memory.clear();
     int address=0;
 
     string line;
@@ -72,20 +72,20 @@ bool Loader::loadFile() {
 
         uint16_t instruction;
         if (!parseLine(line, instruction)) {
-            cout << "\n**Error: Line invalid >> File Rejected\n";
+            cout << "\n**Error: Line invalid >> File Rejected\n\n";
             memory.clear();
             registers.clear();
             return false;
         }
         if (address+1>255) {
-            cout<<"\n**Error: program is too large >> File Rejected\n";
+            cout<<"\n**Error: program is too large >> File Rejected\n\n";
             memory.clear();
             registers.clear();
             return false;
         }
 
-        memory.write(address,instruction);
-        memory.write(address+1,instruction&0xFF);
+        memory.write(address, (instruction >> 8) & 0xFF);
+        memory.write(address + 1, instruction & 0xFF);
         address+=2;
     }
     return true;

@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 #include<string>
 #include<cstdint>
 #include"Memory.h"
@@ -7,7 +8,7 @@ using namespace std;
 class Screen
 {
 private:
-    string output;
+    vector<string> output;
     Memory& memory;
     Registers& registers;
 

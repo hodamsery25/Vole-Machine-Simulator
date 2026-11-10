@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include<cstdint>
 #include "cpu.h"
 
 Cpu::Cpu(Memory& m, Registers& regs, Instructions& ir, Screen& s) : memory(m), registers(regs), IR(ir), screen(s) {
@@ -10,9 +12,13 @@ void Cpu::reset() {
     halted = 0;
     IR.setRaw(0);
     registers.clear();
+    memory.clear();
 }
 void Cpu::set_pc(int address) {
     pc = address;
+}
+void Cpu::displayStatus(){
+    cout <<"\n Current Program counter: "<< pc<<endl;
 }
 
 void Cpu::fetch_decode() {
@@ -36,8 +42,9 @@ void Cpu::execute() {
         break;
     case 0x3:
         memory.write(xy, registers.read(R));
-        if (xy == 0x00) {
-            screen.write(registers.read(R));
+        if (xy == 0xFF) {
+             screen.write(registers.read(R));
+
         }
         break;
     case 0x4:
@@ -85,16 +92,17 @@ void Cpu::total_run() {
 
 void Cpu::steps_run() {
     string o;
+    cin.ignore(10000, '\n');
     while (!halted) {
         fetch_decode();
         pc += 2;
         execute();
+        if (halted) break;
         screen.displayStatus();
-        cin.ignore();
+        displayStatus();
+        screen.display();
+        screen.clear();
         cout << "\n > Press Enter to continue > ";
         getline(cin, o);
     }
-}
-void Cpu::displayStatus(){
-    cout <<"\n Current Program counter: "<< pc;
 }

@@ -11,11 +11,19 @@ Screen::Screen(Memory& m, Registers& r) : memory(m), registers(r) {
 
 void Screen::write(uint8_t value)
 {
-    output = to_string(value);
+    output.push_back(to_string(value));
 }
 
 void Screen::display() {
-    cout << output;
+    int s=output.size();
+    if(s != 0){
+      cout<<"\n-------------------------------------\n";
+      for(int i=0; i<s; i++){
+         cout << "\n~~Program Output: "<<output[i];
+      }
+      cout<<"\n\n-------------------------------------\n";
+         output.clear();
+    }
 }
 
 void Screen::displayMenu() {

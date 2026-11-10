@@ -56,7 +56,8 @@ bool Loader::loadFile() {
         registers.clear();
         return false;
     }
-    program.clear();
+    memory.clear();
+    int address=0;
 
     string line;
     while (getline(file, line)) {
@@ -76,14 +77,16 @@ bool Loader::loadFile() {
             registers.clear();
             return false;
         }
-        if (program.size() >= 128) {
+        if (address+1>255) {
             cout<<"\n**Error: program is too large >> File Rejected\n";
             memory.clear();
             registers.clear();
             return false;
         }
 
-        program.push_back(instruction);
+        memory.write(address,instruction);
+        memory.write(address+1,instruction&0xFF);
+        address+=2;
     }
     return true;
 }

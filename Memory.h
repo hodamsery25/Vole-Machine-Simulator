@@ -1,7 +1,3 @@
-//
-// Created by iprahim on 09/11/2026.
-//
-
 #pragma once
 #include <cstdint>
 
@@ -12,8 +8,8 @@ private:
     int index;
     uint8_t value;
 public:
-    uint8_t read (int i);
-    void write(int i,uint8_t v);
+    Memory();
+    uint8_t read(int i);
+    void write(int i, uint8_t v);
     void clear();
 };
-

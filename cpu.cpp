@@ -1,36 +1,36 @@
 #include <iostream>
 #include "cpu.h"
 
-Cpu::Cpu(Memory& m, Registers& regs, Instructions& ir, Screen& s) : memory(m),registers(regs),IR(ir),screen(s){
+Cpu::Cpu(Memory& m, Registers& regs, Instructions& ir, Screen& s) : memory(m), registers(regs), IR(ir), screen(s) {
     pc = 0;
     halted = false;
 }
-void Cpu::reset(){
+void Cpu::reset() {
     pc = 0;
     halted = 0;
     IR.setRaw(0);
     registers.clear();
 }
-void Cpu::set_pc(int address){
+void Cpu::set_pc(int address) {
     pc = address;
 }
-int Cpu::get_pc(){
+int Cpu::get_pc() {
     return pc;
 }
 
-void Cpu::fetch_decode(){
+void Cpu::fetch_decode() {
     uint8_t byte1 = memory.read(pc);
-    uint8_t byte2 = memory.read(pc+1);
-    uint16_t raw = (byte1<<8) + byte2;
+    uint8_t byte2 = memory.read(pc + 1);
+    uint16_t raw = (byte1 << 8) + byte2;
     IR.setRaw(raw);
 }
-void Cpu::execute(){
-  int op = IR.getOpcode();
-  int R = IR.getR();
-  int xy = IR.getXY();
-  int X = IR.getX();
-  int Y = IR.getY();
-  switch(op){
+void Cpu::execute() {
+    int op = IR.getOpcode();
+    int R = IR.getR();
+    int xy = IR.getXY();
+    int X = IR.getX();
+    int Y = IR.getY();
+    switch (op) {
     case 0x1:
         registers.write(R, memory.read(xy));
         break;
@@ -39,8 +39,8 @@ void Cpu::execute(){
         break;
     case 0x3:
         memory.write(xy, registers.read(R));
-        if(xy == 0x00) {
-          screen.write(registers.read(R));
+        if (xy == 0x00) {
+            screen.write(registers.read(R));
         }
         break;
     case 0x4:
@@ -64,38 +64,37 @@ void Cpu::execute(){
         registers.write(R, alu.bitXor(registers.read(X), registers.read(Y)));
         break;
 
-    case 0xA:
+    /*case 0xA:
         registers.write(R, alu.rotateRight(registers.read(R), X));
-        break;
+        break;*/
     case 0xB:
-        if(registers.read(R) == registers.read(0)) {
-          pc = xy;
+        if (registers.read(R) == registers.read(0)) {
+            pc = xy;
         }
         break;
     case 0xC:
         halted = 1;
         break;
-  }
+    }
 }
 
-void Cpu::total_run(){
-  while(!halted ){
-    fetch_decode();
-    pc+=2;
-    execute();
-  }
+void Cpu::total_run() {
+    while (!halted) {
+        fetch_decode();
+        pc += 2;
+        execute();
+    }
 }
 
-void Cpu::steps_run(){
-  string o;
-  while(!halted){
-      fetch_decode();
-      pc+=2;
-      execute();
-      screen.displayStatus();
-      cin.ignore();
-      cout << "\n > Press Enter to continue > ";
-      getline(cin,o);
-  }
+void Cpu::steps_run() {
+    string o;
+    while (!halted) {
+        fetch_decode();
+        pc += 2;
+        execute();
+        screen.displayStatus(registers, memory);
+        cin.ignore();
+        cout << "\n > Press Enter to continue > ";
+        getline(cin, o);
+    }
 }
-

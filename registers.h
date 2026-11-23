@@ -3,7 +3,6 @@
 
 class Registers {
 private:
-    int n;
     uint8_t cells[16];
     uint8_t value;
 public:

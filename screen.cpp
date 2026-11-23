@@ -1,9 +1,10 @@
-#include<string>
+#include<iostream>
+#include<iomanip>
 #include<cstdint>
 #include<vector>
-#include<iomanip>
-#include<iostream>
+#include<string>
 #include"screen.h"
+
 using namespace std;
 
 Screen::Screen(Memory& m, Registers& r) : memory(m), registers(r) {
@@ -27,14 +28,11 @@ void Screen::display() {
 }
 
 void Screen::displayMenu() {
-    cout << "1. Load Program\n";
-    cout << "2. Edit Memory cell\n";
-    cout << "3. Edit Register\n";
-    cout << "4. Run program\n";
-    cout << "5. Run Step by Step\n";
-    cout << "6. Display Machine Status\n";
-    cout << "7. Clear Screen\n";
-    cout << "8. Exit\n";
+    cout << "1. Load New Program    2. Display Machine Status\n";
+    cout << "3. Edit Register       4. Edit Memory cell\n";
+    cout << "5. Run program         6. Run Step by Step\n";
+    cout << "7. Clear Screen        8. Exit\n";
+
 }
 
 void Screen::displayStatus() {
@@ -43,7 +41,7 @@ void Screen::displayStatus() {
     cout << "\n\t        == Registers ==\n";
     cout << "\t     ";
     for (int i = 0; i < 16; i++) {
-        cout << "R-" << dec << setw(2) << i << " = " << hex << setw(2) << (int)registers.read(i) << "   ";
+        cout << "R-"  << setw(2) << i << " = "<< setw(2) << (int)registers.read(i) << "   ";
         if ((i + 1) % 2 == 0) {
             cout << "\n\t     ";
         }

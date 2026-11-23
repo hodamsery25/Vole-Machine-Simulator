@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include<cstdint>
+#include <string>
 #include "cpu.h"
 
 Cpu::Cpu(Memory& m, Registers& regs, Instructions& ir, Screen& s) : memory(m), registers(regs), IR(ir), screen(s) {
@@ -18,7 +18,7 @@ void Cpu::set_pc(int address) {
     pc = address;
 }
 void Cpu::displayStatus(){
-    cout <<"\n== Current Program counter: "<< pc<<endl;
+    cout <<"\n== Current Program counter: "<< pc <<endl;
 }
 
 void Cpu::fetch_decode() {

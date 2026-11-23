@@ -1,8 +1,8 @@
-#include <string>
+#include <iostream>
+#include <fstream>
 #include <cstdint>
 #include <vector>
-#include <fstream>
-#include <iostream>
+#include <string>
 #include "loader.h"
 using namespace std;
 Loader::Loader(Memory& m, Registers& r):memory(m),registers(r){filename = "";}
@@ -51,8 +51,9 @@ bool Loader::loadFile() {
     cin.ignore(10000, '\n');///
     getline(cin,filename);///
     ifstream file(filename);
-    if (!file.is_open()) {
-        cout << "\n**Error: File not found >> File Rejected\n\n";
+    if (!file.is_open()){
+        cout << "\n**Error: File not found >> File Rejected";
+        cout << "\n----------------------------------------\n\n";
         memory.clear();
         registers.clear();
         return false;
@@ -75,7 +76,8 @@ bool Loader::loadFile() {
 
         uint16_t instruction;
         if (!parseLine(line, instruction)) {
-            cout << "\n**Error: Line invalid >> File Rejected\n\n";
+            cout << "\n**Error: Line invalid >> File Rejected";
+            cout << "\n--------------------------------------\n\n";
             memory.clear();
             registers.clear();
             file.close();
@@ -85,7 +87,8 @@ bool Loader::loadFile() {
             continue;
         }
         if (address+1>255) {
-            cout<<"\n**Error: program is too large >> File Rejected\n\n";
+            cout <<"\n**Error: program is too large >> File Rejected";
+            cout <<"\n----------------------------------------------\n\n";
             memory.clear();
             registers.clear();
             file.close();

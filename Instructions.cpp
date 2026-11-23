@@ -1,5 +1,6 @@
-#include "Instructions.h"
 #include <iostream>
+#include "Instructions.h"
+
 void Instructions::setRaw(uint16_t value) {
 	raw = value;
 }
